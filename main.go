@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"newgo/config"
 	"newgo/router"
 )
@@ -8,5 +9,8 @@ import (
 func main() {
 	config.InitConfig()
 	r := router.SetRouter()
-	r.Run(config.AppConfig.Server.Port)
+	if err := r.Run(config.AppConfig.Server.Port); err != nil {
+		log.Fatalf("Server failed to start: %v", err)
+		return
+	}
 }
