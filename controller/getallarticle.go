@@ -18,6 +18,8 @@ func GetAllArticle(c *gin.Context) {
 	cachekey = "articles"
 	redisResult, err := global.RedisClient.Get(cachekey).Result()
 	if err == redis.Nil {
+		mu.Lock()
+		defer mu.Unlock()
 		if err := global.DB.Find(&articles).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				c.JSON(404, gin.H{"error": err.Error()})
