@@ -13,6 +13,7 @@ import (
 )
 
 var cachekey = "articles"
+var mu sync.Mutex
 
 func GetAllArticle(c *gin.Context) {
 	var articles []models.Article
